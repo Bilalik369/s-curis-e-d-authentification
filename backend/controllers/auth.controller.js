@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import {generateTokenAndSetCookie} from "../utile/generateTokenAndSetCookie.js"
 
 
+
 export const signup = async(req , res)=>{
     
     const {email , password , name} = req.body;
@@ -31,7 +32,9 @@ export const signup = async(req , res)=>{
         await user.save();
 
 
-        generateTokenAndSetCookie(res, user._id)
+        generateTokenAndSetCookie(res, user._id);
+        await sendVerificationEmail(user.email, verificationToken);
+
         res.status(201).json({success : true, message : "User created successfully" , user :{ ...user._doc, password :undefined}})
 
     }catch(error){
