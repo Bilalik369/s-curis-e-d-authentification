@@ -1,7 +1,8 @@
 import { MailtrapClient } from "mailtrap";
 import dotenv from "dotenv";
 
-dotenv.config({ path: '../.env' }); 
+dotenv.config(); 
+
 
 
 export const mailtrapClient = new MailtrapClient({
@@ -9,6 +10,6 @@ export const mailtrapClient = new MailtrapClient({
 });
 
 export const sender = {
-  address: "hello@enaa.ma",
+  email: "hello@enaa.ma",
   name: "Mailtrap Test",
 };

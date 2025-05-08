@@ -33,12 +33,12 @@ export const signup = async (req, res) => {
 			password: hashedPassword,
 			name,
 			verificationToken,
-			verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
+			verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, 
 		});
 
 		await user.save();
 
-		// jwt
+		
 		generateTokenAndSetCookie(res, user._id);
 
 		await sendVerificationEmail(user.email, verificationToken);
@@ -136,14 +136,14 @@ export const forgotPassword = async (req, res) => {
 
 	
 		const resetToken = crypto.randomBytes(20).toString("hex");
-		const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
+		const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; 
 
 		user.resetPasswordToken = resetToken;
 		user.resetPasswordExpiresAt = resetTokenExpiresAt;
 
 		await user.save();
 
-		// send email
+		
 		await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
 
 		res.status(200).json({ success: true, message: "Password reset link sent to your email" });
@@ -167,7 +167,7 @@ export const resetPassword = async (req, res) => {
 			return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
 		}
 
-		// update password
+		
 		const hashedPassword = await bcryptjs.hash(password, 10);
 
 		user.password = hashedPassword;
